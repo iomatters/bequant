@@ -1,0 +1,61 @@
+<html>
+  <div>
+    <h1>WS Client</h1>
+    <p>Example of WS request</p>
+    <p>{"fsyms": "BTC", "tsyms": "USD"}</p>
+    <input id="input" type="text" size="40" value='{"fsyms": "BTC", "tsyms": "USD"}'/>
+    <button onclick="send()">Send</button>
+    <pre id="output"></pre>
+  <style>
+    html {
+      text-align: center;
+      font-size: 16px;
+    }
+    div {
+      padding: 1rem;
+    }
+    #input {
+      font-size: 16px;
+    }
+    p {
+        font-size: 16px;
+    }
+    pre {
+      width: 500;
+      display: block;
+      text-align: center;
+      white-space: pre;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: pre-wrap;       /* Since CSS 2.1 */
+      white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+      white-space: -pre-wrap;      /* Opera 4-6 */
+      white-space: -o-pre-wrap;    /* Opera 7 */
+      word-wrap: break-word;       /* Internet Explorer 5.5+ */  
+      position:relative;
+}
+  </style>
+  <script>
+    var input = document.getElementById("input");
+    var output = document.getElementById("output");
+    var socket = new WebSocket("ws://localhost:8080/price");
+
+    function output1(inp) {
+      document.body.appendChild(document.createElement('pre')).innerHTML = inp;
+    }
+
+
+    socket.onopen = function () {
+      output.innerHTML += "Status: Connected\n\n";
+    };
+
+    socket.onmessage = function (e) {
+      output.innerHTML = JSON.stringify(e.data, undefined, 4);
+     };
+
+    function send() {
+      socket.send(input.value);
+    }
+
+  </script>
+</html>

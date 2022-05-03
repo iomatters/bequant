@@ -1,0 +1,11 @@
+[db]
+host	= "postgres"
+port	= 5432
+dbname	= "ticker"
+user	= "ticker"
+pass	= "ticker"
+
+[main]
+providers	= ["cryptocompare"]
+fsyms		= ["BTC", "XRP"]
+tsyms		= ["USD", "EUR"]

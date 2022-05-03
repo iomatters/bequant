@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  pg:
+    container_name: postgres 
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    networks:
+      - internal
+
+  collector:
+    container_name: collector 
+    image: collector:latest
+    networks:
+      - internal
+    depends_on:
+      - pg
+
+  endpoint:
+    container_name: endpoint
+    image: endpoint:latest
+    ports:
+     - "8080:8080"
+    networks:
+      - internal
+    depends_on:
+      - pg
+
+networks:
+  internal: {}
