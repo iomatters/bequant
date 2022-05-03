@@ -1,8 +1,8 @@
 # bequant
 
 ## Description
-- **collector** - Daemon running in the background to collect and record prices from the cryptocompare API.
-- **endpoint** - WebSocket API endpoint to convey prices from the cryptocompare API.
+- **collector** - daemon running in the background to collect and record prices from the cryptocompare API
+- **endpoint** - webSocket API endpoint to interface prices pulled from the cryptocompare API
 
 PostgreSQL is being used as a backend database.
 
@@ -12,7 +12,7 @@ PostgreSQL is being used as a backend database.
 - make
 
 ## Customization
-You may want to use your own PostgreSQL setup, if that is the case, modify pg_dump.sql to specify user and password, also modify both collector/config.toml and endpoint/config.toml respectivlly to reflect the changes.
+You may want to use your own PostgreSQL setup, if that is the case, modify pg_dump.sql to use alternative database user and password, also modify both collector/config.toml and endpoint/config.toml respectivlly to reflect the changes.
 
 Otherwise, use the defaults.
 
@@ -38,6 +38,6 @@ cat pg_dump.sql | docker exec -i postgres psql -Upostgres
 docker ps && docker logs collector && docker logs endpoint
 ```
 ## How To
-Identify the server running your containers and specify it in wsclient.html. For that, locate the line `var socket = new WebSocket("ws://localhost:8080/price` in wsclient.html and modify it accordingly using your server name, e.g. `var socket = new WebSocket("ws://MYSERVER:8080/price`.
+Identify the server running your containers and specify it within wsclient.html. For that, locate the line `var socket = new WebSocket("ws://localhost:8080/price` in wsclient.html and modify it accordingly using your server name, e.g. `var socket = new WebSocket("ws://MYSERVER:8080/price`.
 
 Open wsclient.html in a browser and give it a try. 
