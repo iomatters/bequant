@@ -1,0 +1,22 @@
+# github.com/BurntSushi/toml v1.1.0
+github.com/BurntSushi/toml
+github.com/BurntSushi/toml/internal
+# github.com/golang/glog v1.0.0
+## explicit
+github.com/golang/glog
+# github.com/iomatters/config v0.0.0-20220503163042-bd1f9427e9db
+## explicit
+github.com/iomatters/config
+# github.com/iomatters/db v0.0.0-20220503161305-546086adfb32
+## explicit
+github.com/iomatters/db
+# github.com/iomatters/provider v0.0.0-20220503161355-660e7c9007ba
+## explicit
+github.com/iomatters/provider
+# github.com/lib/pq v1.10.5
+github.com/lib/pq
+github.com/lib/pq/oid
+github.com/lib/pq/scram
+# github.com/spf13/pflag v1.0.5
+## explicit
+github.com/spf13/pflag

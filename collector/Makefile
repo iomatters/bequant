@@ -5,6 +5,7 @@ VERSION = 1.0.0
 clean:
 	go clean -mod cache
 dep:
+	go get ./... 
 	go mod download
 	go mod vendor
 	go mod tidy

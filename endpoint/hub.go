@@ -33,9 +33,10 @@ type hub struct {
 	dbname   string
 	user     string
 	password string
-	clients  map[*websocket.Conn]bool
-	request  chan request
-	stop     chan os.Signal
+	//clients  sync.Map[*websocket.Conn]bool
+	clients sync.Map
+	request chan request
+	stop    chan os.Signal
 }
 
 func newHub(provider string, host string, port int, dbname string, user string, password string, ch chan os.Signal) *hub {
@@ -46,28 +47,36 @@ func newHub(provider string, host string, port int, dbname string, user string, 
 		dbname:   dbname,
 		user:     user,
 		password: password,
-		clients:  make(map[*websocket.Conn]bool),
-		request:  make(chan request),
-		stop:     ch,
+		//clients:  make(map[*websocket.Conn]bool),
+		clients: sync.Map{},
+		request: make(chan request),
+		stop:    ch,
 	}
 }
 
 func (h *hub) run() {
 	for {
-		var wg sync.WaitGroup
+		//var wg sync.WaitGroup
 		select {
 		// Terminate signal
 		case <-h.stop:
-			for ws := range h.clients {
-				ws.Close()
-			}
+			//for ws := range h.clients.Range() {
+			//	ws.Close()
+			//}
+			h.clients.Range(func(key, value interface{}) bool {
+				v := key.(*websocket.Conn)
+				v.Close()
+				//*websocket.Conn(key.(*websocket.Conn)).Close()
+				return true
+			})
+
 			glog.Infoln("Bye!")
 			os.Exit(0)
 
 		case request := <-h.request:
-			wg.Add(1)
+			//wg.Add(1)
 			go func(id string, fsyms string, tsyms string) {
-				defer wg.Done()
+				//defer wg.Done()
 
 				p, err := provider.NewProvider(id)
 				if err != nil {
@@ -118,7 +127,7 @@ func (h *hub) run() {
 			}("cryptocompare", request.msg.Fsyms, request.msg.Tsyms)
 
 		}
-		wg.Wait()
+		//wg.Wait()
 	}
 }
 
@@ -127,7 +136,9 @@ func (h *hub) read(client *websocket.Conn) {
 		var msg message
 		if err := client.ReadJSON(&msg); err != nil {
 			glog.Infoln(err)
-			delete(h.clients, client)
+			//delete(h.clients, client)
+			h.clients.Delete(client)
+
 			break
 		}
 

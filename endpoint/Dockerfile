@@ -11,7 +11,7 @@ COPY go.mod ./
 COPY go.sum ./
 COPY *.go ./
 
-RUN go mod download && \
+RUN 	go mod download && \
 	go mod vendor && \
 	go mod tidy 
 

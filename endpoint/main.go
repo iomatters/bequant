@@ -59,12 +59,15 @@ func main() {
 		}
 		defer func() {
 			glog.Infoln("Closing socket", ws.RemoteAddr())
-			delete(hub.clients, ws)
+			//delete(hub.clients, ws)
+			hub.clients.Delete(ws)
 			ws.Close()
 		}()
 
 		// Add client
-		hub.clients[ws] = true
+		//hub.clients[ws] = true
+		hub.clients.Store(ws, true)
+
 		glog.Infoln("Connected", ws.RemoteAddr())
 
 		hub.read(ws)
